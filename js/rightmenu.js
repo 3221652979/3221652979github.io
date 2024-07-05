@@ -1,6 +1,6 @@
 var selectTextNow = "";
-let rmWidth = $("#rightMenu").width(),
-    rmHeight = $("#rightMenu").height(),
+let rmWidth = document.getElementById("rightMenu").offsetWidth,
+    rmHeight = document.getElementById("rightMenu").offsetHeight,
     domhref = "",
     domImgSrc = "",
     globalEvent = null,
@@ -40,118 +40,188 @@ function stopMaskScroll() {
 }
 
 function addRightMenuClickEvent() {
-    $("#rightMenu-mask").on("click", rm.hideRightMenu),
-        $("#rightMenu-mask").contextmenu((function () {
-            return rm.hideRightMenu(), !1
-        })),
-        $("#menu-backward").on("click", (function () {
-            window.history.back(),
-                rm.hideRightMenu()
-        })),
-        $("#menu-forward").on("click", (function () {
-            window.history.forward(),
-                rm.hideRightMenu()
-        })),
-        $("#menu-refresh").on("click", (function () {
-            rm.hideRightMenu(),
-                window.location.reload()
-        })),
-        $("#menu-darkmode").on("click", rm.switchDarkMode),
-        $("#menu-reading").on("click", rm.switchReadMode),
-        $("#menu-commentBarrage").on("click", (function () {
-            rm.hideRightMenu(),
-                rm.switchCommentBarrage()
-        })),
-        $("#menu-postlink").on("click", rm.copyPostUrl),
-        $("#menu-copytext").on("click", (function () {
-            rm.rightmenuCopyText(selectTextNow),
-                btf.snackbarShow("复制成功，复制和转载请标注本文地址")
-        })),
-        $("#menu-pastetext").on("click", rm.pasteText),
-        $("#menu-commenttext").on("click", (function () {
-            rm.commentText(selectTextNow),
-                rm.hideRightMenu()
-        })),
-        $("#menu-searchBaidu").on("click", rm.searchBaidu),
-        $("#menu-newwindow").on("click", (function () {
-            window.open(domhref),
-                rm.hideRightMenu()
-        })),
-        $("#menu-copylink").on("click", rm.copyLink),
-        $("#menu-copyimg").on("click", (function () {
-            rm.writeClipImg(domImgSrc)
-        })),
-        $("#menu-downloadimg").on("click", (function () {
-            rm.downloadImage(domImgSrc, "MeuiCat")
-        })),
-        $("#menu-copylinkimg").on("click", (function () {
-            rm.CopyLinkImg(domImgSrc)
-        })),
-        $("#menu-randomPost").on("click", (function () {
-            rm.hideRightMenu(),
-                toRandomPost()
-        })),
-        $("#menu-translate").on("click", rm.translate),
-        $("#menu-asidehide").on("click", rm.hideAsideBtn)
+    document.getElementById("rightMenu-mask").addEventListener("click", rm.hideRightMenu);
+    document.getElementById("rightMenu-mask").addEventListener("contextmenu", function () {
+        rm.hideRightMenu();
+        return false;
+    });
+    document.getElementById("menu-backward").addEventListener("click", function () {
+        window.history.back();
+        rm.hideRightMenu();
+    });
+    document.getElementById("menu-forward").addEventListener("click", function () {
+        window.history.forward();
+        rm.hideRightMenu();
+    });
+    document.getElementById("menu-refresh").addEventListener("click", function () {
+        rm.hideRightMenu();
+        window.location.reload();
+    });
+    document.getElementById("menu-darkmode").addEventListener("click", rm.switchDarkMode);
+    document.getElementById("menu-reading").addEventListener("click", rm.switchReadMode);
+    document.getElementById("menu-commentBarrage").addEventListener("click", function () {
+        rm.hideRightMenu();
+        rm.switchCommentBarrage();
+    });
+    document.getElementById("menu-postlink").addEventListener("click", rm.copyPostUrl);
+    document.getElementById("menu-copytext").addEventListener("click", function () {
+        rm.rightmenuCopyText(selectTextNow);
+        btf.snackbarShow("复制成功，复制和转载请标注本文地址");
+    });
+    document.getElementById("menu-pastetext").addEventListener("click", rm.pasteText);
+    document.getElementById("menu-commenttext").addEventListener("click", function () {
+        rm.commentText(selectTextNow);
+        rm.hideRightMenu();
+    });
+    document.getElementById("menu-searchBaidu").addEventListener("click", rm.searchBaidu);
+    document.getElementById("menu-newwindow").addEventListener("click", function () {
+        window.open(domhref);
+        rm.hideRightMenu();
+    });
+    document.getElementById("menu-copylink").addEventListener("click", rm.copyLink);
+    document.getElementById("menu-copyimg").addEventListener("click", function () {
+        rm.writeClipImg(domImgSrc);
+    });
+    document.getElementById("menu-downloadimg").addEventListener("click", function () {
+        rm.downloadImage(domImgSrc, "MeuiCat");
+    });
+    document.getElementById("menu-copylinkimg").addEventListener("click", function () {
+        rm.CopyLinkImg(domImgSrc);
+    });
+    document.getElementById("menu-randomPost").addEventListener("click", function () {
+        rm.hideRightMenu();
+        toRandomPost();
+    });
+    document.getElementById("menu-translate").addEventListener("click", rm.translate);
+    document.getElementById("menu-asidehide").addEventListener("click", rm.hideAsideBtn);
 }
 
 function selceText() {
     var e;
-    e = document.selection ? document.selection.createRange()
-        .text : window.getSelection() + "", selectTextNow = e || ""
+    if (window.getSelection) {
+        e = window.getSelection().toString();
+    } else if (document.selection) {
+        e = document.selection.createRange().text;
+    }
+    selectTextNow = e || "";
 }
 
 window.oncontextmenu = function (e) {
     if (document.body.clientWidth > 768) {
         let n = e.clientX + 10,
             t = e.clientY,
-            p = $(".rightMenuPost"),
-            o = $(".rightMenuOther"),
-            i = $(".rightMenuPlugin"),
-            g = $("#menu-commentBarrage"),
-            c = $("#menu-copytext"),
-            r = $("#menu-pastetext"),
-            m = $("#menu-commenttext"),
-            d = $("#menu-search"),
-            s = $("#menu-searchBaidu"),
-            a = $("#menu-newwindow"),
-            u = $("#menu-copylink"),
-            l = $("#menu-copyimg"),
-            h = $("#menu-downloadimg"),
-            w = $("#menu-copylinkimg"),
+            p = document.querySelector(".rightMenuPost"),
+            o = document.querySelector(".rightMenuOther"),
+            i = document.querySelector(".rightMenuPlugin"),
+            g = document.getElementById("menu-commentBarrage"),
+            c = document.getElementById("menu-copytext"),
+            r = document.getElementById("menu-pastetext"),
+            m = document.getElementById("menu-commenttext"),
+            d = document.getElementById("menu-search"),
+            s = document.getElementById("menu-searchBaidu"),
+            a = document.getElementById("menu-newwindow"),
+            u = document.getElementById("menu-copylink"),
+            l = document.getElementById("menu-copyimg"),
+            h = document.getElementById("menu-downloadimg"),
+            w = document.getElementById("menu-copylinkimg"),
             y = e.target.href,
             M = e.target.currentSrc,
-            b = !1;
-        return o.show(),
-            globalEvent = e,
-            selectTextNow && window.getSelection() ? (b = !0, c.show(), $("#post-comment").length ? m.show() : m.hide(), d.show(), s.show(), p.hide()) : (c.hide(), m.hide(), d.hide(), s.hide()),
-            y ? (b = !0, a.show(), u.show(), domhref = y, p.hide()) : (a.hide(), u.hide()),
-            M ? (b = !0, l.show(), h.show(), w.show(), domImgSrc = M, p.hide()) : (l.hide(), h.hide(), w.hide()),
-            "input" === e.target.tagName.toLowerCase() || "textarea" === e.target.tagName.toLowerCase() ? (b = !0, r.show(), p.hide()) : r.hide(),
-            b ? (o.hide(), i.show()) : (i.hide(), $("#body-wrap.post").length ? p.show() : p.hide()),
-            $(".read-mode").length ? g.hide() : g.show(),
-            rm.reloadrmSize(),
-            n + rmWidth > window.innerWidth && (n -= rmWidth + 10),
-            t + rmHeight > window.innerHeight && (t -= t + rmHeight - window.innerHeight),
-            rm.showRightMenu(!0, t, n),
-            $("#rightMenu-mask").attr("style", "display: flex"),
-            !1;
+            b = false;
+
+        o.style.display = "block";
+        globalEvent = e;
+
+        if (selectTextNow && window.getSelection()) {
+            b = true;
+            c.style.display = "block";
+            document.getElementById("post-comment") ? m.style.display = "block" : m.style.display = "none";
+            d.style.display = "block";
+            s.style.display = "block";
+            p.style.display = "none";
+        } else {
+            c.style.display = "none";
+            m.style.display = "none";
+            d.style.display = "none";
+            s.style.display = "none";
+        }
+
+        if (y) {
+            b = true;
+            a.style.display = "block";
+            u.style.display = "block";
+            domhref = y;
+            p.style.display = "none";
+        } else {
+            a.style.display = "none";
+            u.style.display = "none";
+        }
+
+        if (M) {
+            b = true;
+            l.style.display = "block";
+            h.style.display = "block";
+            w.style.display = "block";
+            domImgSrc = M;
+            p.style.display = "none";
+        } else {
+            l.style.display = "none";
+            h.style.display = "none";
+            w.style.display = "none";
+        }
+
+        if (e.target.tagName.toLowerCase() === "input" || e.target.tagName.toLowerCase() === "textarea") {
+            b = true;
+            r.style.display = "block";
+            p.style.display = "none";
+        } else {
+            r.style.display = "none";
+        }
+
+        if (b) {
+            o.style.display = "none";
+            i.style.display = "block";
+        } else {
+            i.style.display = "none";
+            document.querySelector("#body-wrap.post") ? p.style.display = "block" : p.style.display = "none";
+        }
+
+        document.querySelector(".read-mode") ? g.style.display = "none" : g.style.display = "block";
+
+        rm.reloadrmSize();
+
+        if (n + rmWidth > window.innerWidth) {
+            n -= rmWidth + 10;
+        }
+
+        if (t + rmHeight > window.innerHeight) {
+            t -= t + rmHeight - window.innerHeight;
+        }
+
+        rm.showRightMenu(true, t, n);
+        document.getElementById("rightMenu-mask").style.display = "flex";
+        return false;
     }
 }
 document.onmouseup = document.ondbclick = selceText
 
 rm.showRightMenu = function (e, n = 0, t = 0) {
-    let o = $("#rightMenu");
-    o.css("top", n + "px").css("left", t + "px"),
-        e ? (o.show(), stopMaskScroll()) : o.hide()
+    const rightMenu = document.getElementById("rightMenu");
+    rightMenu.style.top = n + "px";
+    rightMenu.style.left = t + "px";
+    if (e) {
+        rightMenu.style.display = "block";
+        stopMaskScroll();
+    } else {
+        rightMenu.style.display = "none";
+    }
 },
     rm.hideRightMenu = function () {
-        rm.showRightMenu(!1),
-            $("#rightMenu-mask").attr("style", "display: none")
+        rm.showRightMenu(false);
+        document.getElementById("rightMenu-mask").style.display = "none";
     },
     rm.reloadrmSize = function () {
-        rmWidth = $("#rightMenu").width(),
-            rmHeight = $("#rightMenu").height()
+        rmWidth = document.getElementById("rightMenu").offsetWidth;
+        rmHeight = document.getElementById("rightMenu").offsetHeight;
     },
     rm.switchDarkMode = function () {
         const nowMode = document.documentElement.getAttribute('data-theme') === 'dark' ? 'dark' : 'light'
@@ -171,74 +241,98 @@ rm.showRightMenu = function (e, n = 0, t = 0) {
         rm.hideRightMenu()
     },
     rm.switchReadMode = function () {
-        const $body = document.body;
-        if ($(".read-mode").length === 0) {
-            $body.classList.add('read-mode');
-            const newEle = document.createElement('button');
-            newEle.type = 'button';
-            newEle.className = 'iconfont icat-exit-mode exit-readmode';
-            $body.appendChild(newEle);
+        const body = document.body;
+        if (!document.querySelector(".read-mode")) {
+            body.classList.add('read-mode');
+            const newButton = document.createElement('button');
+            newButton.type = 'button';
+            newButton.className = 'iconfont icat-exit-mode exit-readmode';
+            body.appendChild(newButton);
 
             const clickFn = () => {
-                $body.classList.remove('read-mode');
-                newEle.remove();
-                newEle.removeEventListener('click', clickFn);
+                body.classList.remove('read-mode');
+                newButton.remove();
+                newButton.removeEventListener('click', clickFn);
             };
 
-            newEle.addEventListener('click', clickFn);
-            $("#menu-reading span").text("退出阅读模式");
+            newButton.addEventListener('click', clickFn);
+            document.getElementById("menu-reading").querySelector("span").textContent = "退出阅读模式";
         } else {
-            $body.classList.remove('read-mode');
-            $(".exit-readmode").remove();
-            $("#menu-reading span").text("阅读模式");
+            body.classList.remove('read-mode');
+            const exitButton = document.querySelector('.exit-readmode');
+            if (exitButton) {
+                exitButton.remove();
+            }
+            document.getElementById("menu-reading").querySelector("span").textContent = "阅读模式";
         }
         rm.hideRightMenu();
     },
     rm.switchCommentBarrage = function () {
-        document.querySelector(".comment-barrage") && ($(".comment-barrage").is(":visible") ? ($(".comment-barrage").hide(),
-            $("#menu-commentBarrage span").text("显示热评"),
-            document.querySelector("#consoleCommentBarrage").classList.remove("on"),
-            localStorage.setItem("commentBarrageSwitch", "false")) : $(".comment-barrage").is(":hidden") && ($(".comment-barrage").show(),
-                $("#menu-commentBarrage span").text("关闭热评"),
-                document.querySelector("#consoleCommentBarrage").classList.add("on"),
-                localStorage.removeItem("commentBarrageSwitch"))),
-            rm.hideRightMenu()
+        const commentBarrage = document.querySelector(".comment-barrage");
+        if (commentBarrage) {
+            if (commentBarrage.style.display === "block") {
+                commentBarrage.style.display = "none";
+                document.getElementById("menu-commentBarrage").querySelector("span").textContent = "显示热评";
+                document.querySelector("#consoleCommentBarrage").classList.remove("on");
+                localStorage.setItem("commentBarrageSwitch", "false");
+            } else {
+                commentBarrage.style.display = "block";
+                document.getElementById("menu-commentBarrage").querySelector("span").textContent = "关闭热评";
+                document.querySelector("#consoleCommentBarrage").classList.add("on");
+                localStorage.removeItem("commentBarrageSwitch");
+            }
+        }
+        rm.hideRightMenu();
     },
-    rm.copyUrl = function (e) {
-        $("body")
-            .after("<input id='copyVal'></input>");
-        var n = e,
-            t = document.getElementById("copyVal");
-        t.value = n, t.select(), t.setSelectionRange(0, t.value.length), document.execCommand("copy"), $("#copyVal")
-            .remove()
+    rm.copyUrl = function (url) {
+        const input = document.createElement("input");
+        input.id = "copyVal";
+        document.body.appendChild(input);
+        input.value = url;
+        input.select();
+        input.setSelectionRange(0, input.value.length);
+        document.execCommand("copy");
+        input.remove();
     },
     rm.copyPostUrl = function () {
-        var e = window.location.href;
-        rm.copyUrl(e),
-            btf.snackbarShow("复制本页链接地址成功", !1, 2000),
-            rm.hideRightMenu()
+        const url = window.location.href;
+        rm.copyUrl(url);
+        btf.snackbarShow("复制本页链接地址成功", false, 2000);
+        rm.hideRightMenu();
     },
-    rm.rightmenuCopyText = function (e) {
-        navigator.clipboard && navigator.clipboard.writeText(e),
-            rm.hideRightMenu()
+    rm.rightmenuCopyText = function (text) {
+        if (navigator.clipboard) {
+            navigator.clipboard.writeText(text);
+        }
+        rm.hideRightMenu();
     },
     rm.readClipboard = function () {
-        navigator.clipboard && navigator.clipboard.readText()
-            .then((e => rm.insertAtCaret(globalEvent.target, e)))
+        if (navigator.clipboard) {
+            navigator.clipboard.readText().then((text) => rm.insertAtCaret(globalEvent.target, text));
+        }
     },
-    rm.insertAtCaret = function (e, n) {
-        const t = e.selectionStart,
-            o = e.selectionEnd;
-        if (document.selection) e.focus(), document.selection.createRange()
-            .text = n, e.focus();
-        else if (t || "0" == t) {
-            var i = e.scrollTop;
-            e.value = e.value.substring(0, t) + n + e.value.substring(o, e.value.length), e.focus(), e.selectionStart = t + n.length, e.selectionEnd = t + n.length, e.scrollTop = i
-        } else e.value += n, e.focus()
+    rm.insertAtCaret = function (input, text) {
+        const start = input.selectionStart;
+        const end = input.selectionEnd;
+        if (document.selection) {
+            input.focus();
+            document.selection.createRange().text = text;
+            input.focus();
+        } else if (start || start === 0) {
+            const scrollTop = input.scrollTop;
+            input.value = input.value.substring(0, start) + text + input.value.substring(end, input.value.length);
+            input.focus();
+            input.selectionStart = start + text.length;
+            input.selectionEnd = start + text.length;
+            input.scrollTop = scrollTop;
+        } else {
+            input.value += text;
+            input.focus();
+        }
     },
     rm.pasteText = function () {
-        rm.readClipboard(),
-            rm.hideRightMenu()
+        rm.readClipboard();
+        rm.hideRightMenu();
     },
     rm.commentText = function (txt) {
         const inputs = ["#wl-edit", ".el-textarea__inner"];
@@ -253,60 +347,80 @@ rm.showRightMenu = function (e, n = 0, t = 0) {
         }
     },
     rm.searchBaidu = function () {
-        btf.snackbarShow("即将跳转到百度搜索", !1, 2000), setTimeout((function () {
-            window.open("https://www.baidu.com/s?wd=" + selectTextNow)
-        }), "2000"),
-            rm.hideRightMenu()
-    },
-    rm.rightmenuCopyText = function (e) {
-        navigator.clipboard && navigator.clipboard.writeText(e),
-            rm.hideRightMenu()
+        btf.snackbarShow("即将跳转到百度搜索", false, 2000);
+        setTimeout(function () {
+            window.open("https://www.baidu.com/s?wd=" + selectTextNow);
+        }, 2000);
+        rm.hideRightMenu();
     },
     rm.copyLink = function () {
-        rm.rightmenuCopyText(domhref),
-            btf.snackbarShow("已复制链接地址")
+        rm.rightmenuCopyText(domhref);
+        btf.snackbarShow("已复制链接地址");
     },
-    rm.downloadimging = !1,
-    rm.writeClipImg = function (e) {
-        const t = "2000";
-        const n = "localhost" === window.location.hostname || "127.0.0.1" === window.location.hostname ? 0 : 10000;
-        console.log("按下复制"),
-            rm.hideRightMenu(),
-            btf.snackbarShow("正在下载中，请稍后", !1, n),
-            0 == rm.downloadimging && (rm.downloadimging = !0,
-                setTimeout((function () {
-                    copyImage(e), btf.snackbarShow("复制成功！图片已添加盲水印，请遵守版权协议"), rm.downloadimging = !1
-                }), t))
+    rm.writeClipImg = function (url) {
+        const lazyTime = "2000";
+        const waitTime = "localhost" === window.location.hostname || "127.0.0.1" === window.location.hostname ? 0 : 10000;
+        console.log("按下复制");
+        rm.hideRightMenu();
+        btf.snackbarShow("正在下载中，请稍后", false, waitTime);
+        if (rm.downloadimging === 0) {
+            rm.downloadimging = true;
+            setTimeout(function () {
+                copyImage(url);
+                btf.snackbarShow("复制成功！图片已添加盲水印，请遵守版权协议");
+                rm.downloadimging = false;
+            }, lazyTime);
+        }
     },
-    rm.downloadImage = function (e, t) {
-        rm.hideRightMenu(),
-            0 == rm.downloadimging ? (rm.downloadimging = !0, btf.snackbarShow("正在下载中，请稍后", !1, 10000), setTimeout((function () {
-                let o = new Image;
-                o.setAttribute("crossOrigin", "anonymous"), o.onload = function () {
-                    let e = document.createElement("canvas");
-                    e.width = o.width, e.height = o.height, e.getContext("2d")
-                        .drawImage(o, 0, 0, o.width, o.height);
-                    let n = e.toDataURL("image/png"),
-                        a = document.createElement("a"),
-                        l = new MouseEvent("click");
-                    a.download = t || "photo", a.href = n, a.dispatchEvent(l)
-                }, o.src = e, btf.snackbarShow("图片已添加盲水印，请遵守版权协议"), rm.downloadimging = !1
-            }), "10000")) : btf.snackbarShow("有正在进行中的下载，请稍后再试")
+    rm.downloadImage = function (url, name) {
+        rm.hideRightMenu();
+        if (rm.downloadimging === 0) {
+            rm.downloadimging = true;
+            btf.snackbarShow("正在下载中，请稍后", false, 10000);
+            setTimeout(function () {
+                let img = new Image();
+                img.setAttribute("crossOrigin", "anonymous");
+                img.onload = function () {
+                    let canvas = document.createElement("canvas");
+                    canvas.width = img.width;
+                    canvas.height = img.height;
+                    let ctx = canvas.getContext("2d");
+                    ctx.drawImage(img, 0, 0, img.width, img.height);
+                    let dataURL = canvas.toDataURL("image/png");
+                    let a = document.createElement("a");
+                    let event = new MouseEvent("click");
+                    a.download = name || "photo";
+                    a.href = dataURL;
+                    a.dispatchEvent(event);
+                };
+                img.src = url;
+                btf.snackbarShow("图片已添加盲水印，请遵守版权协议");
+                rm.downloadimging = false;
+            }, 10000);
+        } else {
+            btf.snackbarShow("有正在进行中的下载，请稍后再试");
+        }
     },
-    rm.CopyLinkImg = function (e) {
-        rm.rightmenuCopyText(e),
-            btf.snackbarShow("已复制图片链接")
+    rm.CopyLinkImg = function (url) {
+        rm.rightmenuCopyText(url);
+        btf.snackbarShow("已复制图片链接");
     },
     rm.translate = function () {
-        rm.hideRightMenu(),
-            document.getElementById("translateLink").click();
+        rm.hideRightMenu();
+        document.getElementById("translateLink").click();
     },
     rm.hideAsideBtn = function () {
-        const $htmlDom = document.documentElement.classList
-        const saveStatus = $htmlDom.contains('hide-aside') ? 'show' : 'hide'
-        saveToLocal.set('aside-status', saveStatus, 2)
-        $htmlDom.toggle('hide-aside')
-        rm.hideRightMenu()
+        const htmlDom = document.documentElement.classList;
+        const saveStatus = htmlDom.contains('hide-aside') ? 'show' : 'hide';
+        saveToLocal.set('aside-status', saveStatus, 2);
+        htmlDom.toggle('hide-aside');
+        rm.hideRightMenu();
     };
 
 // 右键菜单
+
+
+作者: 亦小封
+链接: https://meuicat.com/blog/86/#%E6%95%88%E6%9E%9C%E9%A2%84%E8%A7%88
+来源: 爱吃肉的猫
+著作权归作者所有。商业转载请联系作者获得授权，非商业转载请注明出处。
