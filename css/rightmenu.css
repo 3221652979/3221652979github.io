@@ -62,7 +62,7 @@
 #rightMenu .rightMenu-group .rightMenu-item i {
     display: inline-block;
     text-align: center;
-    line-height: 1.5rem;
+    /* line-height: 1.5rem; */
     width: 1.5rem;
     padding: 0 .25rem
 }
@@ -71,9 +71,9 @@
     margin: 0 .25rem
 }
 
-#rightMenu .rightMenu-group .rightMenu-item span {
+/* #rightMenu .rightMenu-group .rightMenu-item span {
     line-height: 1.5rem
-}
+} */
 
 .rightMenu-small .rightMenu-item {
     width: 30px;
